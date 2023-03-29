@@ -2,4 +2,6 @@
 
 # PALR - Planet Alcatraz Load Remover
 
-Captures correct in-game time while speedrunning. Falls back to slightly less precise method on "fight"/"monster" maps.
+Captures correct in-game time while speedrunning. Falls back to slightly less precise method on some maps.
+
+Also includes auto splitter for storyline and fights.
