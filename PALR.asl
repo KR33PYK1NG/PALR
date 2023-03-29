@@ -79,7 +79,7 @@ split {
     string ToMap = current.Map;
     if (!FromMap.Equals(ToMap)) {
         // Common Story
-        if (FromMap.Equals("crashsite_crashsite.ers") && ToMap.Equals("prodzone_fact_bck_1.ers")) {
+        if (FromMap.Equals("crashsite_crashsite.ers") && ToMap.Equals("prodzone_fact_ent.ers")) {
             // Crash Site
             return true;
         } else if (FromMap.Equals("trainstop_trainstop.ers") && ToMap.Equals("norcity_rubbish.ers")) {
