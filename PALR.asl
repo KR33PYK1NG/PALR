@@ -50,6 +50,11 @@ isLoading {
     }
 }
 
+// Reset completion variables on start.
+onStart {
+    vars.FinishedSpaceshipCave = false;
+}
+
 // Automatically split at certain points.
 split {
     string FromCredits = old.Credits;
@@ -118,8 +123,9 @@ split {
             return true;
         } else if (FromMap.Equals("shipcave_maze.ers") && ToMap.Equals("cannibals_can_vill.ers")) {
             // Spaceship Cave
+            vars.FinishedSpaceshipCave = true;
             return true;
-        } else if (FromMap.Equals("cannibals_can_entr.ers") && ToMap.Equals("norcity_mar_car.ers")) {
+        } else if (vars.FinishedSpaceshipCave && FromMap.Equals("cannibals_can_entr.ers") && ToMap.Equals("norcity_mar_car.ers")) {
             // Cannibal Village
             return true;
         }
