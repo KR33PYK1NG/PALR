@@ -2,12 +2,14 @@
 state("Erasers", "v1.05") {
     int GameState : "Erasers.exe", 0x3E00A8;
     int GameStateFallback : "Erasers.exe", 0x607110;
+    string1 Credits : "mss32.dll", 0x816BB;
     string64 Map : "Erasers.exe", 0x4101B0;
     string64 Dialog : "Erasers.exe", 0x50ACA8;
 }
 state("Erasers", "v1.06") {
     int GameState : "Erasers.exe", 0x598258;
     int GameStateFallback : "LifeStudioHeadAPI.dll", 0x5C2C4;
+    string1 Credits : "mss32.dll", 0x816BB;
     string64 Map : "Erasers.exe", 0x5C9030;
     string64 Dialog : "Erasers.exe", 0x6E3148;
 }
@@ -50,6 +52,14 @@ isLoading {
 
 // Automatically split at certain points.
 split {
+    string FromCredits = old.Credits;
+    string ToCredits = current.Credits;
+    if (!FromCredits.Equals(ToCredits)) {
+        // End Credits
+        if (ToCredits.Equals("1")) {
+            return true;
+        }
+    }
     string FromDialog = old.Dialog;
     string ToDialog = current.Dialog;
     if (!FromDialog.Equals(ToDialog)) {
