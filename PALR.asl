@@ -31,6 +31,11 @@ exit {
     timer.IsGameTimePaused = true;
 }
 
+// Pause timer on shutdown.
+shutdown {
+    timer.IsGameTimePaused = true;
+}
+
 // Disable if unsupported version.
 update {
     if (version == "") {
