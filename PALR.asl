@@ -42,6 +42,7 @@ update {
 isLoading {
     if (current.Map.Equals("academ_academ.ers")
         || current.Map.Equals("mildrop_mildrop.ers")
+        || current.Map.Equals("shipcave_maze.ers")
         || current.Map.StartsWith("fight")
         || current.Map.StartsWith("monster")) {
         return current.GameStateFallback == 0;
@@ -52,6 +53,11 @@ isLoading {
 
 // Reset completion variables on start.
 onStart {
+    vars.FinishedSpaceshipCave = false;
+}
+
+// Initialize completion variables on startup.
+startup {
     vars.FinishedSpaceshipCave = false;
 }
 
