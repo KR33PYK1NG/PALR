@@ -33,7 +33,7 @@ update {
 
 // When loading GameState(Fallback) is 0.
 isLoading {
-    if (current.MapOrDialog.Equals("trainstop.py")) {
+    if (current.MapOrDialog.Equals("trainstop.py") || vars.TrainStopCutscene) {
         return current.GameStateFallback == 0;
     } else {
         return current.GameState == 0;
@@ -42,72 +42,112 @@ isLoading {
 
 // Reset completion variables on start.
 onStart {
-    vars.RunStage = 0;
+    vars.EscapeSettlement = false;
+    vars.FatherAlexander = false;
+    vars.RatGrove = false;
+    vars.TimeInstitute = false;
+    vars.LostIsland = false;
+    vars.NomadCamp = false;
+    vars.AryanMeetingReady = false;
+    vars.AryanMeeting = false;
+    vars.UndergroundFortress = false;
+    vars.FlamethrowerTank = false;
+    vars.TrainStopCutscene = false;
+    vars.TrainStop = false;
+    vars.ProdzoneSweep = false;
+    vars.PoliceSettlement = false;
+    vars.PoliceBase = false;
 }
 
 // Initialize completion variables on startup.
 startup {
-    vars.RunStage = 0;
+    vars.EscapeSettlement = false;
+    vars.FatherAlexander = false;
+    vars.RatGrove = false;
+    vars.TimeInstitute = false;
+    vars.LostIsland = false;
+    vars.NomadCamp = false;
+    vars.AryanMeetingReady = false;
+    vars.AryanMeeting = false;
+    vars.UndergroundFortress = false;
+    vars.FlamethrowerTank = false;
+    vars.TrainStopCutscene = false;
+    vars.TrainStop = false;
+    vars.ProdzoneSweep = false;
+    vars.PoliceSettlement = false;
+    vars.PoliceBase = false;
 }
 
 // Automatically split at certain points.
 split {
-    int CurrentStage = vars.RunStage;
     bool MadeProgress = false;
-    bool MadeProgressNonSplit = false;
     string From = old.MapOrDialog;
     string To = current.MapOrDialog;
     if (!String.IsNullOrEmpty(From) && !String.IsNullOrEmpty(To) && !From.Equals(To)) {
-        switch (CurrentStage) {
-            case 0: // Escape Settlement
-                MadeProgress = To.Equals("mar_car.py");
-                break;
-            case 1: // Father Alexander
-                MadeProgress = To.Equals("father_alexander.py");
-                break;
-            case 2: // Rat Grove
-                MadeProgress = From.Equals("monster01.py");
-                break;
-            case 3: // Time Institute
-                MadeProgress = From.Equals("alice.py") && To.Equals("whitecenter.py");
-                break;
-            case 4: // Lost Island
-                MadeProgress = (From.Equals("cthulhu.py") || From.Equals("mcmurphy.py") || From.Equals("legba_junior.py") || From.Equals("seku.py") || From.Equals("johansen.py")) && To.Equals("sod_nor.py");
-                break;
-            case 5: // Nomad Camp
-                MadeProgress = From.Equals("clausschultz.py") && To.Equals("aryancent.py");
-                break;
-            case 6: // Aryan Meeting Start
-                MadeProgressNonSplit = To.Equals("pin.py");
-                break;
-            case 7: // Aryan Meeting
-                MadeProgress = To.Equals("iceman.py");
-                break;
-            case 8: // Underground Fortress
-                MadeProgress = From.Equals("highentr.py");
-                break;
-            case 9: // Flamethrower Tank
-                MadeProgress = From.Equals("panzerfahrer.py") && To.Equals("aryancent.py");
-                break;
-            case 10: // Train Stop
-                MadeProgress = From.Equals("clausschultz.py") && To.Equals("entry.py");
-                break;
-            case 11: // Prodzone Sweep
-                MadeProgress = (From.Equals("entry.py") || From.Equals("hood.py")) && !To.Equals("farm_mine.py");
-                break;
-            case 12: // Police Settlement
-                MadeProgress = From.Equals("pol_lake.py");
-                break;
-            case 13: // Police Base
-                MadeProgress = From.Equals("pol_cave.py");
-                break;
+        if (!vars.EscapeSettlement && To.Equals("mar_car.py")) {
+            // Escape Settlement
+            MadeProgress = true;
+            vars.EscapeSettlement = true;
+        } else if (!vars.FatherAlexander && To.Equals("father_alexander.py")) {
+            // Father Alexander
+            MadeProgress = true;
+            vars.FatherAlexander = true;
+        } else if (!vars.RatGrove && From.Equals("monster01.py")) {
+            // Rat Grove
+            MadeProgress = true;
+            vars.RatGrove = true;
+        } else if (!vars.TimeInstitute && From.Equals("alice.py") && To.Equals("whitecenter.py")) {
+            // Time Institute
+            MadeProgress = true;
+            vars.TimeInstitute = true;
+        } else if (!vars.LostIsland && (From.Equals("cthulhu.py") || From.Equals("mcmurphy.py") || From.Equals("legba_junior.py") || From.Equals("seku.py") || From.Equals("johansen.py")) && To.Equals("sod_nor.py")) {
+            // Lost Island
+            MadeProgress = true;
+            vars.LostIsland = true;
+        } else if (!vars.NomadCamp && From.Equals("clausschultz.py") && To.Equals("aryancent.py")) {
+            // Nomad Camp
+            MadeProgress = true;
+            vars.NomadCamp = true;
+        } else if (!vars.AryanMeetingReady && To.Equals("pin.py")) {
+            // Aryan Meeting Ready
+            vars.AryanMeetingReady = true;
+        } else if (!vars.AryanMeeting && vars.AryanMeetingReady && To.Equals("iceman.py")) {
+            // Aryan Meeting
+            MadeProgress = true;
+            vars.AryanMeetingReady = false;
+            vars.AryanMeeting = true;
+        } else if (!vars.UndergroundFortress && From.Equals("highentr.py")) {
+            // Underground Fortress
+            MadeProgress = true;
+            vars.UndergroundFortress = true;
+        } else if (!vars.FlamethrowerTank && From.Equals("panzerfahrer.py") && To.Equals("aryancent.py")) {
+            // Flamethrower Tank
+            MadeProgress = true;
+            vars.FlamethrowerTank = true;
+        } else if (!vars.TrainStopCutscene && From.Equals("trainstop.py") && To.Equals("clausschultz.py")) {
+            // Train Stop Cutscene
+            vars.TrainStopCutscene = true;
+        } else if (!vars.TrainStop && From.Equals("clausschultz.py") && To.Equals("entry.py")) {
+            // Train Stop
+            MadeProgress = true;
+            vars.TrainStopCutscene = false;
+            vars.TrainStop = true;
+        } else if (!vars.ProdzoneSweep && From.Equals("entry.py") && !To.Equals("farm_mine.py")) {
+            // Prodzone Sweep
+            MadeProgress = true;
+            vars.ProdzoneSweep = true;
+        } else if (!vars.PoliceSettlement && From.Equals("pol_lake.py")) {
+            // Police Settlement
+            MadeProgress = true;
+            vars.PoliceSettlement = true;
         }
     }
-    if (MadeProgress) {
-        vars.RunStage++;
-        return true;
+    int FromBase = old.GameState;
+    int ToBase = current.GameState;
+    if (!vars.PoliceBase && To.Equals("pol_cave.py") && FromBase != ToBase && ToBase == 0) {
+        // Police Base
+        MadeProgress = true;
+        vars.PoliceBase = true;
     }
-    if (MadeProgressNonSplit) {
-        vars.RunStage++;
-    }
+    return MadeProgress;
 }
