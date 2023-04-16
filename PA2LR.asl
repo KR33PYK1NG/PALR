@@ -1,6 +1,7 @@
 // Supported game versions.
 state("SP2", "v1.02") {
     int GameState : "SP2.exe", 0x7E4EB0;
+    int GameStateFallback : "SP2.exe", 0x7E4EF0;
     string64 MapOrDialog : "SP2.exe", 0x72BB28;
 }
 
@@ -30,9 +31,13 @@ update {
     }
 }
 
-// When loading GameState is 0.
+// When loading GameState(Fallback) is 0.
 isLoading {
-    return current.GameState == 0;
+    if (current.MapOrDialog.Equals("trainstop.py")) {
+        return current.GameStateFallback == 0;
+    } else {
+        return current.GameState == 0;
+    }
 }
 
 // Reset completion variables on start.
