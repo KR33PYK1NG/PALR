@@ -54,6 +54,7 @@ startup {
 split {
     int CurrentStage = vars.RunStage;
     bool MadeProgress = false;
+    bool MadeProgressNonSplit = false;
     string From = old.MapOrDialog;
     string To = current.MapOrDialog;
     if (!String.IsNullOrEmpty(From) && !String.IsNullOrEmpty(To) && !From.Equals(To)) {
@@ -77,7 +78,7 @@ split {
                 MadeProgress = From.Equals("clausschultz.py") && To.Equals("aryancent.py");
                 break;
             case 6: // Aryan Meeting Start
-                MadeProgress = To.Equals("pin.py");
+                MadeProgressNonSplit = To.Equals("pin.py");
                 break;
             case 7: // Aryan Meeting
                 MadeProgress = To.Equals("iceman.py");
@@ -105,5 +106,8 @@ split {
     if (MadeProgress) {
         vars.RunStage++;
         return true;
+    }
+    if (MadeProgressNonSplit) {
+        vars.RunStage++;
     }
 }
