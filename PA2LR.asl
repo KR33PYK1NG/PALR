@@ -87,7 +87,7 @@ split {
                 MadeProgress = From.Equals("clausschultz.py") && To.Equals("entry.py");
                 break;
             case 11: // Prodzone Sweep
-                MadeProgress = From.Equals("entry.py") && !To.Equals("farm_mine.py");
+                MadeProgress = (From.Equals("entry.py") || From.Equals("hood.py")) && !To.Equals("farm_mine.py");
                 break;
             case 12: // Police Settlement
                 MadeProgress = From.Equals("pol_lake.py");
