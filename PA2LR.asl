@@ -97,9 +97,12 @@ split {
             case 12: // Police Settlement
                 MadeProgress = From.Equals("pol_lake.py");
                 break;
+            case 13: // Police Base
+                MadeProgress = From.Equals("pol_cave.py");
+                break;
         }
     }
-    if (MadeProgress || (vars.RunStage == 13 && old.GameState != current.GameState && current.GameState == 0 && To.Equals("pol_hq.py"))) {
+    if (MadeProgress) {
         vars.RunStage++;
         return true;
     }
